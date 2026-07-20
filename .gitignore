@@ -1,0 +1,28 @@
+# data & secrets
+/data/
+*.env
+.env.*
+config/settings.yaml
+config/secrets*.yaml
+*.key
+*.pem
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Node
+node_modules/
+dist/
+build/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Claude Code local settings
+.claude/settings.local.json
