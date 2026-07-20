@@ -1,9 +1,8 @@
 # data & secrets
 /data/
-*.env
+.env
 .env.*
-config/settings.yaml
-config/secrets*.yaml
+!.env.example
 *.key
 *.pem
 
