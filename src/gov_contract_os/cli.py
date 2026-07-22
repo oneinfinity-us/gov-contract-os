@@ -52,7 +52,13 @@ def _session_factory():
     return make_session_factory(engine)
 
 
-def _collect_one(source_name: str) -> None:
+def _collect_one(source_name: str) -> str:
+    """Collect one source. Returns one of: 'ok', 'skipped', 'partial'.
+
+    Never re-raises: a failing single-item detail fetch is logged and skipped so
+    it can't take down the rest of the source's items. If the whole source is
+    unreachable, the outer collect() catches the exception.
+    """
     connector = get_connector(source_name)
     health = connector.health_check()
     if health.status in (ConnectorHealthStatus.UNAVAILABLE, ConnectorHealthStatus.NOT_IMPLEMENTED):
@@ -61,21 +67,32 @@ def _collect_one(source_name: str) -> None:
             typer.echo(f"  alternative: {health.recommended_alternative}")
         if health.manual_inbox_hint:
             typer.echo(f"  manual inbox: {health.manual_inbox_hint}")
-        return
+        return "skipped"
 
     session_factory = _session_factory()
     summaries = connector.discover()
     typer.echo(f"[{source_name}] discovered {len(summaries)} opportunities")
 
     stored = 0
+    item_failures = 0
     with session_scope(session_factory) as session:
         for summary in summaries:
-            detailed = connector.fetch_details(summary)
-            _, created = upsert_opportunity(session, detailed)
-            stored += 1
-            if created:
-                typer.echo(f"  + new: {detailed.title}")
+            try:
+                detailed = connector.fetch_details(summary)
+                _, created = upsert_opportunity(session, detailed)
+                stored += 1
+                if created:
+                    typer.echo(f"  + new: {detailed.title}")
+            except Exception as exc:  # noqa: BLE001 - one item's failure must not kill the source
+                item_failures += 1
+                logger.exception(
+                    "fetch_details/upsert failed for source=%s item=%s",
+                    source_name,
+                    getattr(summary, "id", "<unknown>"),
+                )
+                typer.echo(f"  ! item failed ({exc}); continuing with remaining items")
     typer.echo(f"[{source_name}] stored/updated {stored} opportunities")
+    return "partial" if item_failures else "ok"
 
 
 @app.command()
@@ -89,15 +106,30 @@ def collect(
         raise typer.Exit(code=1)
 
     source_names = list(CONNECTOR_REGISTRY) if all else [source]
+    outcomes: dict[str, int] = {"ok": 0, "partial": 0, "skipped": 0, "failed": 0, "unknown": 0}
     for name in source_names:
         if name not in CONNECTOR_REGISTRY:
             typer.echo(f"[{name}] unknown source. Valid: {', '.join(sorted(CONNECTOR_REGISTRY))}")
+            outcomes["unknown"] += 1
             continue
         try:
-            _collect_one(name)
+            result = _collect_one(name)
+            outcomes[result] += 1
         except Exception as exc:  # noqa: BLE001 - one source's failure must not stop the others
             logger.exception("collect failed for source=%s", name)
             typer.echo(f"[{name}] FAILED: {exc}")
+            outcomes["failed"] += 1
+
+    typer.echo(
+        f"summary: ok={outcomes['ok']} partial={outcomes['partial']} "
+        f"skipped={outcomes['skipped']} failed={outcomes['failed']} "
+        f"unknown={outcomes['unknown']}"
+    )
+    # Non-zero exit only when the run had actual FAILURES or unknown source names.
+    # NOT_IMPLEMENTED stubs and UNAVAILABLE sources are expected outcomes (they
+    # report the reason and a manual inbox alternative), not errors.
+    if outcomes["failed"] or outcomes["unknown"]:
+        raise typer.Exit(code=1)
 
 
 @app.command()

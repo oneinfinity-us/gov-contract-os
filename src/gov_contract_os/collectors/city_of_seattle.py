@@ -32,8 +32,9 @@ import html
 import logging
 import re
 import warnings
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as ET  # ElementTree types only; parsing uses defusedxml below.
 
+import defusedxml.ElementTree as DET
 from dateutil import parser as dateutil_parser
 from dateutil.parser import UnknownTimezoneWarning
 
@@ -91,10 +92,11 @@ class CityOfSeattleConnector(Connector):
 
     def discover(self) -> list[Opportunity]:
         response = self._http.get(RSS_URL)
-        # Parse raw bytes (not response.text) so ElementTree honors the feed's own
-        # `<?xml version="1.0" encoding="UTF-8"?>` declaration instead of httpx's
-        # guessed text encoding, which mangles non-ASCII punctuation (e.g. en-dashes).
-        root = ET.fromstring(response.content)
+        # Parse raw bytes (not response.text) so the XML declaration's own encoding
+        # is honored instead of httpx's guessed text encoding. Use defusedxml to
+        # block XXE / billion-laughs / DTD-retrieval attacks - see
+        # https://docs.python.org/3/library/xml.html#xml-vulnerabilities
+        root = DET.fromstring(response.content)
         now = dt.datetime.now(dt.UTC)
 
         opportunities = []
@@ -180,7 +182,7 @@ class CityOfSeattleConnector(Connector):
         now = dt.datetime.now(dt.UTC)
         try:
             response = self._http.get(RSS_URL)
-            ET.fromstring(response.content)
+            DET.fromstring(response.content)
         except ET.ParseError as exc:
             return ConnectorHealth(
                 source_agency=SOURCE_AGENCY,

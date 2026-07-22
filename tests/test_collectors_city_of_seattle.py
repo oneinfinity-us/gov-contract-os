@@ -130,3 +130,25 @@ def test_health_check_reports_degraded_on_bad_xml():
         connector = _connector()
         health = connector.health_check()
     assert health.status.value == "degraded"
+
+
+def test_discover_rejects_billion_laughs_style_entity_bomb():
+    # A minimal "billion laughs" style payload: nested internal entity expansions.
+    # defusedxml.ElementTree must refuse to expand entities and raise (rather than
+    # silently returning an expanded payload that could DoS the process).
+    bomb = (
+        "<?xml version='1.0'?>"
+        "<!DOCTYPE lolz ["
+        "<!ENTITY lol 'lol'>"
+        "<!ENTITY lol2 '&lol;&lol;&lol;&lol;&lol;'>"
+        "<!ENTITY lol3 '&lol2;&lol2;&lol2;'>"
+        "]>"
+        "<rss><channel><item><title>&lol3;</title></item></channel></rss>"
+    )
+    with respx.mock(assert_all_called=False) as mock:
+        mock.get(RSS_URL).mock(return_value=httpx.Response(200, content=bomb.encode("utf-8")))
+        connector = _connector()
+        health = connector.health_check()
+    # defusedxml raises before we get to the OK branch; connector must report
+    # UNAVAILABLE (or DEGRADED), not crash and not succeed.
+    assert health.status.value in {"unavailable", "degraded"}
