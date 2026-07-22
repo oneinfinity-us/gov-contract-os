@@ -11,6 +11,13 @@ __pycache__/
 *.pyc
 .venv/
 venv/
+*.egg-info/
+
+# gov-contract-os runtime state (SQLite db, local OpenClaw state)
+/runtime/
+
+# browser automation research artifacts
+.playwright-mcp/
 
 # Node
 node_modules/
