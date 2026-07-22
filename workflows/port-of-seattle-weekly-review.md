@@ -8,8 +8,12 @@ weekly report for human review.
 
 ## Schedule
 
-Weekly — recommended day: **Monday morning**, so the team can act on new
-opportunities early in the week.
+Weekly — **Monday 06:00 UTC** (configurable via cron job; see [workflow metadata](#workflow-metadata) below).
+
+This timing ensures:
+- Fresh report early in the US work week
+- Team has full 5+ days to act on "Go" opportunities
+- Weekly cadence prevents decision fatigue (avoids daily/ad-hoc polling)
 
 ## Inputs
 
@@ -36,18 +40,34 @@ opportunities early in the week.
    `reports/generated/port-of-seattle-weekly-<YYYY-MM-DD>.md` using the
    template in `skills/port-of-seattle-weekly-review/SKILL.md`.
 
-## Evaluation scoring (from opportunity-review workflow)
+## Decision Logic
 
-| Dimension | Points |
+### 1. Timeline Filter (Hard Cutoff)
+Apply first, before full scoring. If it fails, recommend **No Bid** immediately.
+
+| Timeline | Decision |
 |---|---|
-| Microsoft AI / Copilot / Azure / agent fit | 25 |
-| Software development and automation fit | 15 |
-| Seattle or Washington geographic fit | 10 |
-| Contract size appropriate for a small firm | 10 |
-| Subcontracting potential | 10 |
-| Ability to demonstrate relevant experience | 10 |
-| Reasonable mandatory requirements | 10 |
-| Timeline feasibility | 10 |
+| < 5 days remaining | **No Bid** |
+| 5–7 days remaining | **Watch** (monitor for reissue; only Go if score > 70) |
+| ≥ 8 days remaining | Proceed to full evaluation |
+
+### 2. Weighted Scoring (if passes timeline filter)
+See `workflows/opportunity-review.md` for full rubric. Key points:
+
+- **Core Capability Fit** (AI/Azure + Software Dev) weighted 3×
+- **Business Fit** (Geographic + Size + Sub potential) weighted 1.5×
+- **Execution Risk** (Experience + Mandates) weighted 1×
+
+**Normalized score** (0–100) determines recommendation:
+- **≥ 70**: Go
+- **40–69**: Watch
+- **< 40**: No Bid
+
+### 3. Handling Missing Company Data
+If `company/capabilities.md`, `company/company-profile.md`, or `company/past-performance/` are incomplete:
+- Award 0 for "Relevant Experience" and correlated capability scores
+- Flag as "⚠️ Company profile incomplete; re-evaluate after update"
+- Recommend "Priority: Complete company profile before next cycle"
 
 ## Required fields per opportunity
 
