@@ -49,21 +49,22 @@ cli.py        Typer CLI，串联以上各层
 中断其他来源的抓取（`cli.py` 的 `collect --all` 对每个来源单独 try/except）。
 
 已实现：
-- `PortOfSeattleConnector`：唯一真实可用的 connector，调用公开 OData API。
-- 其余 4 个（Washington State / King County / City of Seattle / City of Bellevue）
-  均为 stub：`discover()` 直接 `raise NotImplementedError`，`health_check()` 返回
+- `PortOfSeattleConnector`：调用公开 OData API。
+- `CityOfSeattleConnector`：解析官方公开 RSS feed（见 `docs/data-sources.md`）。
+- 其余 3 个（Washington State / King County / City of Bellevue）均为 stub：
+  `discover()` 直接 `raise NotImplementedError`，`health_check()` 返回
   `NOT_IMPLEMENTED` 状态并给出研究线索/人工替代方案。
 
 ## 已实现功能
 
 - 数据模型（`Opportunity`/`Analysis`）+ 去重/内容哈希
 - SQLite 存储 + upsert 语义
-- Connector 统一接口 + 1 个真实 connector（Port of Seattle）+ 4 个诚实的 stub
+- Connector 统一接口 + 2 个真实 connector（Port of Seattle、City of Seattle）+ 3 个诚实的 stub
 - 字段标准化（机构名/日期/金额）
 - Level-1 确定性评分
 - 每日 Markdown 报告生成
 - CLI：`collect` / `analyze --new` / `report daily` / `export`
-- 单元测试（52 个，覆盖模型/标准化/评分/存储/connector/CLI），全部离线运行
+- 单元测试（61 个，覆盖模型/标准化/评分/存储/connector/CLI），全部离线运行
 - ruff lint + format 通过
 
 ## 尚未实现（留给下一轮）
@@ -72,7 +73,7 @@ cli.py        Typer CLI，串联以上各层
 - RFP 全文解析与合规矩阵（`rfp analyze` 目前只是打印"未实现"并退出码 2）
 - 提案起草辅助
 - Demo（Streamlit/FastAPI），`demo` 命令目前只是占位
-- Washington State / King County / City of Seattle / City of Bellevue 的真实 connector
-  （City of Seattle 已有两条线索，见 `docs/data-sources.md`）
+- Washington State / King County / City of Bellevue 的真实 connector（均尚无候选线索，
+  见 `docs/data-sources.md`）
 - OpenClaw 集成的具体调度脚本/配置（`workflows/` 中已有流程描述，但尚未验证真实可执行）
 - 变更检测通知（利用已有的 `content_hash` 字段）

@@ -19,21 +19,31 @@
 - 优先级分类：`SourceSystemType.OFFICIAL_API`（最高优先级）。
 - 代码位置：`src/gov_contract_os/collectors/port_of_seattle.py`。
 
-## City of Seattle（有线索，未验证，未实现）
+## City of Seattle（已验证，第二个真实 connector）
 
-两条候选线索（通过 `fetch_webpage` 调研得到，尚未写解析代码验证结构）：
+- 官方 RSS Feed：`https://thebuyline.seattle.gov/category/bids-and-proposals/feed/`
+  - "The Buy Line" 是西雅图市官方采购博客/公告页面，"Bids and Proposals" 分类
+    提供标准的公开 RSS 2.0 feed，无需登录/API key，`robots.txt` 无限制。
+  - 2026-07-22 已实际抓取并解析真实 feed（约 20 条当前条目），确认字段结构：
+    - `<item><title>` 里混合了状态前缀（`CLOSED-`/`ARCHIVED-`/`CANCELED-`/
+      `CANCELLED-`）、标题正文、以及招标编号（内部编号如 `TR0-6221`，
+      或带标签的编号如 `RFP#6345`/`ITB# CL0-6135`），格式不统一，需要正则清洗。
+    - `<item><category>` 常见值包括 "Bids & Proposals"、"Announcements"、
+      "History/Archives"，可用于辅助判断是否为纯公告（不含真实招标）。
+    - `<item><description>` 是 HTML 转义后的自由文本，包含：
+      1. 指向真正招标平台的外链——`https://cityofseattle.bonfirehub.com/...`
+         或 `https://procurement.opengov.com/portal/seattle/...`（两者都未验证
+         是否有公开 API，目前只抓外链，不解析平台内部详情）；
+      2. 自由格式的 "Due Date: ..." 文本，用正则+`dateutil` 模糊解析提取，
+         可能提取失败（`due_at=None`）或不精确；截止时间原文是太平洋时区但
+         无机器可读时区标记，一律按 UTC 存储（仅适用于日粒度评分，不适合精确提醒）。
+    - 纯公告类条目（如月度"Doing Business With The City"研讨会通知）没有
+      编号也没有外链，用这两个特征的缺失作为过滤条件跳过，不当作真实商机存入。
+  - `fetch_documents()` 未实现（bonfirehub/opengov 均未验证公开文档下载接口）。
+- 优先级分类：`SourceSystemType.OFFICIAL_RSS`。
+- 代码位置：`src/gov_contract_os/collectors/city_of_seattle.py`，
+  测试位于 `tests/test_collectors_city_of_seattle.py`（离线 fixture，不依赖真实网络）。
 
-1. **OpenGov 采购门户**：`https://procurement.opengov.com/portal/seattle`
-   - 城市可能把招标发布迁移到了第三方 OpenGov 平台；未确认是否有公开 API 或
-     只能网页浏览，未确认列表/详情字段结构。
-2. **官方 RSS Feed**：`https://thebuyline.seattle.gov/category/bids-and-proposals/feed/`
-   - "The Buy Line" 是西雅图市官方采购博客/公告页面，其"Bids and Proposals"分类
-     提供标准 RSS/Atom feed。**如果内容结构稳定，这可能是 4 个未实现来源中最快能
-     落地的一个**（RSS 优先级高于网页爬取，见 SECURITY.md 的来源优先级顺序），
-     但尚未解析过真实 feed 条目，字段映射未知，下一轮需要先抓样本验证。
-
-`health_check()` 的 `reason`/`recommended_alternative` 已经写入了以上两条线索，
-方便下一轮直接按图索骥。
 
 ## Washington State（未验证，未实现）
 

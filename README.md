@@ -12,9 +12,10 @@
 ## 现状（第一轮 MVP）
 
 已实现 Python 骨架：数据模型、SQLite 存储、connector 统一接口、评分器、CLI、测试。
-**Port of Seattle** 是当前唯一可真实抓取的来源（公开 OData API）；其余四个目标机构
-（Washington State / King County / City of Seattle / City of Bellevue）目前只有占位
-connector，`health_check()` 会明确报告未实现原因与替代方案（见下方"已支持/暂不支持来源"）。
+**Port of Seattle**（公开 OData API）和 **City of Seattle**（官方 RSS feed）是目前两个
+可真实抓取的来源；其余三个目标机构（Washington State / King County / City of Bellevue）
+目前只有占位 connector，`health_check()` 会明确报告未实现原因与替代方案（见下方
+"已支持/暂不支持来源"）。
 
 ## 安装
 
@@ -43,6 +44,7 @@ python -m gov_contract_os collect --all
 
 # 抓取单个来源
 python -m gov_contract_os collect --source port_of_seattle
+python -m gov_contract_os collect --source city_of_seattle
 
 # 对尚未评分的机会跑 Level-1 确定性评分
 python -m gov_contract_os analyze --new
@@ -81,6 +83,7 @@ OpenClaw 应只调用上面列出的确定性 CLI 命令；行为边界（不允
 | 来源 | 状态 | 方式 |
 |---|---|---|
 | Port of Seattle | ✅ 可运行 | VendorConnect 公开 OData API（guest，无需登录） |
+| City of Seattle | ✅ 可运行 | 官方公开 RSS feed（`thebuyline.seattle.gov`），详见 `docs/data-sources.md` |
 
 ## 暂不支持来源及原因
 
@@ -88,7 +91,6 @@ OpenClaw 应只调用上面列出的确定性 CLI 命令；行为边界（不允
 |---|---|---|---|
 | Washington State | 未实现 | 尚未研究/验证 WEBS 是否提供公开 API/RSS/导出 | 需调研 des.wa.gov |
 | King County | 未实现 | 尚未研究/验证其采购平台 | 待调研 |
-| City of Seattle | 未实现 | 已发现两条线索但未解析验证 | OpenGov 门户 `procurement.opengov.com/portal/seattle`；官方 RSS `thebuyline.seattle.gov/category/bids-and-proposals/feed/` |
 | City of Bellevue | 未实现 | 尚未研究/验证其采购平台 | 待调研 |
 
 未实现来源的手动替代流程：将公开 RFP/RFQ PDF 下载后放入 `opportunities/inbox/`，

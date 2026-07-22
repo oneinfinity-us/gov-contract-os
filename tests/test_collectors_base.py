@@ -6,15 +6,15 @@ import pytest
 
 from gov_contract_os.collectors.base import Connector, ConnectorHealthStatus
 from gov_contract_os.collectors.city_of_bellevue import CityOfBellevueConnector
-from gov_contract_os.collectors.city_of_seattle import CityOfSeattleConnector
 from gov_contract_os.collectors.king_county import KingCountyConnector
 from gov_contract_os.collectors.registry import CONNECTOR_REGISTRY, get_connector
 from gov_contract_os.collectors.washington_state import WashingtonStateConnector
 
+# City of Seattle is a real, implemented connector (RSS-based) - covered by
+# tests/test_collectors_city_of_seattle.py, not the generic stub tests below.
 STUB_CONNECTORS = [
     WashingtonStateConnector,
     KingCountyConnector,
-    CityOfSeattleConnector,
     CityOfBellevueConnector,
 ]
 
