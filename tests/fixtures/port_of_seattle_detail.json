@@ -1,0 +1,26 @@
+{
+  "@odata.context": "https://example.internal/sopsapi/$metadata#Solicitations",
+  "value": [
+    {
+      "ProcurementNumber": "26-36",
+      "ProcurementTitle": "26-36 Emergency Elevator Communication System (EECS)",
+      "Description": "The Port of Seattle (Port) is soliciting offers for an Emergency Elevator Communication System (EECS).",
+      "EstimateQuarter": 1,
+      "EstimateYear": 2027,
+      "EngineerEstimate": "",
+      "PortContact": "Marbet, Andrea",
+      "PortContactPhone": "206-787-6516",
+      "PortContactEmail": "Marbet.A@portseattle.org",
+      "AdvertisementDate": "2026-05-18T00:00:00-07:00",
+      "DisplayFutureList": false,
+      "BidDueDateTime": "2026-07-28T14:00:00-07:00",
+      "BidDueDateQuestionCutOffDateTime": "2026-06-05T14:00:00-07:00",
+      "ShouldPubliclyDisplayPlanHolders": false,
+      "ShouldPubliclyDisplayDocuments": true,
+      "CreatedOn": "2026-05-11T13:20:01.533-07:00",
+      "LastUpdatedOn": "2026-07-14T18:00:51.543-07:00",
+      "SolicitationStatus": { "Name": "Open" },
+      "Department": { "Name": "ICT Enterprise Infrastructure Services" }
+    }
+  ]
+}

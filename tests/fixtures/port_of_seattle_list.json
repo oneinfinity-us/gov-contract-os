@@ -1,0 +1,22 @@
+{
+  "@odata.context": "https://example.internal/sopsapi/$metadata#Solicitations",
+  "@odata.count": 2,
+  "value": [
+    {
+      "ProcurementNumber": "26-36",
+      "ProcurementTitle": "26-36 Emergency Elevator Communication System (EECS)",
+      "BidDueDateTime": "2026-07-28T14:00:00-07:00",
+      "Id": "4c2970c9-764d-f111-bd3c-005056aa9c71",
+      "SolicitationCategory": { "Name": "Goods and Services", "Id": "cat-1" },
+      "SolicitationStatus": { "Name": "Open", "Id": "status-1" }
+    },
+    {
+      "ProcurementNumber": "MC-0322591",
+      "ProcurementTitle": "Terminal 25 (T-25) South Habitat Restoration - GC/CM Pre-Construction",
+      "BidDueDateTime": "2026-08-26T14:00:00-07:00",
+      "Id": "8f647a52-5fe3-ef11-bd25-005056aa9c71",
+      "SolicitationCategory": { "Name": "Major Construction", "Id": "cat-2" },
+      "SolicitationStatus": { "Name": "Open", "Id": "status-1" }
+    }
+  ]
+}
