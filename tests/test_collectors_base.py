@@ -42,13 +42,14 @@ def test_stub_connectors_raise_not_implemented_on_discover(connector_cls):
         connector.discover()
 
 
-def test_registry_contains_all_five_sources():
+def test_registry_contains_all_expected_sources():
     assert set(CONNECTOR_REGISTRY) == {
         "washington_state",
         "king_county",
         "city_of_seattle",
         "city_of_bellevue",
         "port_of_seattle",
+        "govdelivery_email",
     }
 
 

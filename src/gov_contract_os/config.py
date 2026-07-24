@@ -50,6 +50,29 @@ class Settings:
     http_min_interval_seconds: float = 2.0
     http_timeout_seconds: float = 15.0
 
+    # GovDelivery email-subscription connector settings. All optional; when the
+    # required ones are unset the connector reports NOT_IMPLEMENTED (i.e. install
+    # step incomplete) rather than crashing. Passwords MUST be app-specific /
+    # scoped and MUST NOT be committed - see .env.example.
+    govdelivery_imap_host: str | None = field(
+        default_factory=lambda: os.environ.get("GCO_GOVDELIVERY_IMAP_HOST") or None
+    )
+    govdelivery_imap_port: int = field(
+        default_factory=lambda: int(os.environ.get("GCO_GOVDELIVERY_IMAP_PORT") or "993")
+    )
+    govdelivery_imap_user: str | None = field(
+        default_factory=lambda: os.environ.get("GCO_GOVDELIVERY_IMAP_USER") or None
+    )
+    govdelivery_imap_password: str | None = field(
+        default_factory=lambda: os.environ.get("GCO_GOVDELIVERY_IMAP_PASSWORD") or None
+    )
+    govdelivery_imap_mailbox: str = field(
+        default_factory=lambda: os.environ.get("GCO_GOVDELIVERY_IMAP_MAILBOX") or "INBOX"
+    )
+    govdelivery_lookback_days: int = field(
+        default_factory=lambda: int(os.environ.get("GCO_GOVDELIVERY_LOOKBACK_DAYS") or "30")
+    )
+
 
 def get_settings() -> Settings:
     return Settings()

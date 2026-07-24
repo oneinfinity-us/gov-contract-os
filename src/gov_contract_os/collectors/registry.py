@@ -9,6 +9,7 @@ from __future__ import annotations
 from gov_contract_os.collectors.base import Connector
 from gov_contract_os.collectors.city_of_bellevue import CityOfBellevueConnector
 from gov_contract_os.collectors.city_of_seattle import CityOfSeattleConnector
+from gov_contract_os.collectors.govdelivery_email import GovDeliveryEmailConnector
 from gov_contract_os.collectors.king_county import KingCountyConnector
 from gov_contract_os.collectors.port_of_seattle import PortOfSeattleConnector
 from gov_contract_os.collectors.washington_state import WashingtonStateConnector
@@ -19,6 +20,7 @@ CONNECTOR_REGISTRY: dict[str, type[Connector]] = {
     "city_of_seattle": CityOfSeattleConnector,
     "city_of_bellevue": CityOfBellevueConnector,
     "port_of_seattle": PortOfSeattleConnector,
+    "govdelivery_email": GovDeliveryEmailConnector,
 }
 
 

@@ -40,11 +40,13 @@ class SourceSystemType(StrEnum):
     """How the data was obtained - drives priority/trust and helps triage failures.
 
     Priority order (highest to lowest), per SECURITY.md / connector rules:
-    official API > official RSS/Atom > official data download >
-    official public search page > plain HTML parse > browser automation.
+    official API > official email subscription (e.g. GovDelivery) ~ official RSS/Atom
+    > official data download > official public search page > plain HTML parse
+    > browser automation.
     """
 
     OFFICIAL_API = "official_api"
+    OFFICIAL_EMAIL_SUBSCRIPTION = "official_email_subscription"
     OFFICIAL_RSS = "official_rss"
     OFFICIAL_DATA_DOWNLOAD = "official_data_download"
     OFFICIAL_SEARCH_PAGE = "official_search_page"
