@@ -1,0 +1,61 @@
+# Example nonprofit organization profile.
+#
+# COPY this file to `organizations/<your-slug>/organization-profile.yaml`
+# before editing. Do NOT commit real EIN, banking info, private beneficiary
+# data, or board member PII - see SECURITY.md.
+#
+# Any field left blank/null is reported as "missing information" by the
+# eligibility checker rather than silently assumed. Fill in what you can
+# verify; leave the rest unset.
+
+slug: nonprofit
+type: nonprofit
+
+legal_name: "[HUMAN INPUT REQUIRED - legal name on IRS determination letter]"
+dba_name: null
+incorporation_state: "Washington"
+year_founded: null
+
+# --- Mission / programs ------------------------------------------------------
+tax_status: "501(c)(3)"
+mission_statement: >-
+  [HUMAN INPUT REQUIRED - one-paragraph mission statement matching the language
+  used in the nonprofit's IRS Form 1023 / bylaws.]
+focus_areas:
+  - "[HUMAN INPUT REQUIRED - e.g. technology access]"
+  - "[HUMAN INPUT REQUIRED - e.g. workforce development]"
+populations_served:
+  - "[HUMAN INPUT REQUIRED - e.g. underrepresented youth]"
+service_geographies:
+  - "King County"
+  - "Washington State"
+programs:
+  - name: "[HUMAN INPUT REQUIRED - program name]"
+    description: "[HUMAN INPUT REQUIRED - one-paragraph program description]"
+    annual_participants: null
+    annual_budget: null
+    outcomes: []
+
+# --- Attestations (we have this document/registration on file) ---------------
+# Set to true ONLY when you can produce the document/registration on demand.
+# `null` means "not yet confirmed" - the eligibility checker treats null as
+# missing information, not as false.
+has_501c3_determination_letter: null
+has_sam_registration: null
+has_uei: null
+has_grants_gov_registration: null
+has_audited_financials: null
+has_board_list: null
+has_nondiscrimination_policy: null
+has_conflict_of_interest_policy: null
+
+# --- Funding preferences -----------------------------------------------------
+# What grants the nonprofit will actually pursue, independent of eligibility.
+minimum_award: 5000
+maximum_award: 500000
+accepts_reimbursement_grants: null
+accepts_matching_grants: null
+max_cost_share_percent: null
+
+# --- Where the nonprofit's public-facing docs live in this repo --------------
+documents_dir: "organizations/nonprofit"

@@ -6,6 +6,12 @@
 *.key
 *.pem
 
+# Live organization profiles (only the *.example.yaml is committed; the real
+# profile-of-record stays local to avoid leaking EIN / registration numbers /
+# board attestations. See SECURITY.md and organizations/nonprofit/README.md.)
+organizations/*/organization-profile.yaml
+!organizations/*/organization-profile.example.yaml
+
 # Python
 __pycache__/
 *.pyc

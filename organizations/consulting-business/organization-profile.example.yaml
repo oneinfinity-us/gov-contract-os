@@ -1,0 +1,20 @@
+# Consulting business organization manifest (thin).
+#
+# The existing `company/` directory holds the human-authored content for this
+# entity (profile, capabilities, past-performance). This YAML is the machine-
+# readable identity used by the CLI's --organization flag.
+#
+# Grants MUST NOT be pursued under this organization context. See SECURITY.md
+# and gov_contract_os.organizations.ensure_grant_context.
+
+slug: consulting-business
+type: consulting_business
+
+legal_name: "[HUMAN INPUT REQUIRED]"
+incorporation_state: "Washington"
+
+# Consulting business does not use the nonprofit fields below; leaving them
+# blank signals "not applicable" to any code that inspects the profile.
+tax_status: null
+
+documents_dir: "company"

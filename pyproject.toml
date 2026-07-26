@@ -17,6 +17,7 @@ dependencies = [
   "tenacity>=8.2",
   "python-dateutil>=2.9",
   "defusedxml>=0.7",
+  "PyYAML>=6.0",
 ]
 
 [project.optional-dependencies]

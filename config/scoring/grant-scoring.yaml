@@ -1,0 +1,34 @@
+# Grant scoring configuration.
+# All weights must sum to exactly 100. Load path: gov_contract_os.grants.scoring
+# .load_grant_scoring_config() validates this and raises on mismatch.
+#
+# Interpretation:
+#   mission_alignment       Overlap between grant focus_areas and nonprofit focus_areas.
+#   program_alignment       Nonprofit programs mentioned/reflected in grant text.
+#   population_alignment    Overlap between grant populations_served and nonprofit's.
+#   geographic_fit          Grant scope overlaps nonprofit service areas (tight > broad).
+#   entity_eligibility      Whether entity type passes hard eligibility (from EligibilityResult).
+#   funding_amount_fit      Award ceiling/floor within nonprofit's preferred range.
+#   allowable_cost_fit      No red flags in cost share / indirect cost caps.
+#   organizational_capacity Nonprofit has standard attestations (501c3 letter, audit, etc.).
+#   outcomes_fit            Nonprofit has documented program outcomes.
+#   application_effort      LOI/preapp stage or short document list = higher.
+#   deadline_feasibility    Enough time to prepare a quality application.
+
+weights:
+  mission_alignment: 20
+  program_alignment: 15
+  population_alignment: 10
+  geographic_fit: 10
+  entity_eligibility: 15
+  funding_amount_fit: 5
+  allowable_cost_fit: 5
+  organizational_capacity: 5
+  outcomes_fit: 5
+  application_effort: 5
+  deadline_feasibility: 5
+
+thresholds:
+  immediate_action: 85    # -> recommendation APPLY
+  strong_candidate: 70    # -> recommendation APPLY (queue Level-2 LLM review)
+  monitor: 50             # -> recommendation MONITOR

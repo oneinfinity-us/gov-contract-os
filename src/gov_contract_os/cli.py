@@ -21,6 +21,7 @@ import typer
 from gov_contract_os.collectors.base import ConnectorHealthStatus
 from gov_contract_os.collectors.registry import CONNECTOR_REGISTRY, get_connector
 from gov_contract_os.config import REPO_ROOT, get_settings
+from gov_contract_os.grants.cli import grants_app
 from gov_contract_os.reports.daily import write_daily_report
 from gov_contract_os.scoring.scorer import score_opportunity
 from gov_contract_os.storage.db import (
@@ -43,6 +44,7 @@ report_app = typer.Typer(help="Generate reports.")
 rfp_app = typer.Typer(help="Analyze RFP/RFQ documents.")
 app.add_typer(report_app, name="report")
 app.add_typer(rfp_app, name="rfp")
+app.add_typer(grants_app, name="grants")
 
 
 def _session_factory():

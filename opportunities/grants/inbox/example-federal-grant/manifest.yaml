@@ -1,0 +1,78 @@
+# Example grant inbox entry.
+#
+# Directory layout:
+#   opportunities/grants/inbox/<slug>/
+#     manifest.yaml   <- this file - structured metadata about the grant
+#     *.pdf           <- (optional) source NOFO / RFA documents
+#
+# Workflow:
+#   1. Human (or later, LLM-assisted human) fills out this manifest.
+#   2. Run: python -m gov_contract_os grants import opportunities/grants/inbox/<slug>/
+#   3. Run: python -m gov_contract_os grants screen --nonprofit <slug> --new
+#
+# See workflows/grants/screen-new-grants.md for the full loop.
+#
+# This EXAMPLE uses fabricated data for illustration only. Copy the folder,
+# rename it, and replace values with a real NOFO's content before running.
+
+opportunity_type: government_grant
+
+funder_name: Example Federal Agency
+funder_type: federal_agency
+program_name: Community Technology Access Program
+funding_opportunity_number: EX-CTAP-2026-001
+title: Community Technology Access for Underrepresented Youth
+description: >
+  Supports 501(c)(3) nonprofits serving underrepresented youth in the Pacific
+  Northwest with technology-access and digital-literacy programming. Awards
+  fund up to 18 months of program delivery, equipment, and evaluation.
+
+stage: open
+
+posted_at: "2026-07-01T00:00:00+00:00"
+full_proposal_due_at: "2026-10-15T23:59:00+00:00"
+project_start_at: "2027-01-01T00:00:00+00:00"
+project_end_at: "2028-06-30T00:00:00+00:00"
+
+award_ceiling: 250000
+award_floor: 50000
+total_program_funding: 3000000
+expected_awards_count: 15
+cost_share_required: false
+
+eligible_applicants:
+  - nonprofit_501c3
+  - tribal
+
+focus_areas:
+  - technology access
+  - workforce development
+  - digital literacy
+geographic_scope:
+  - Washington State
+  - Oregon
+  - Idaho
+populations_served:
+  - underrepresented youth
+  - rural communities
+
+requires_501c3: true
+requires_sam_registration: true
+invitation_only: false
+letter_of_inquiry_required: false
+
+required_documents:
+  - IRS 501(c)(3) determination letter
+  - Most recent audited financial statement
+  - Board list with affiliations
+  - Program logic model
+  - Detailed budget and budget narrative
+
+reporting_requirements:
+  - Quarterly financial reports
+  - Annual programmatic report with participant demographics
+
+source_system: manual_inbox
+source_url: https://example.gov/grants/ctap-2026
+contact_name: Example Program Officer
+contact_email: ctap@example.gov
