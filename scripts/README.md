@@ -1,10 +1,9 @@
 # scripts
 
-确定性的采集与整理脚本（例如：抓取 Port of Seattle 采购平台的公开列表、把原始公告规范化写入 `opportunities/<agency>/`、清理缓存等）。
+Deterministic collection and organization scripts (e.g., fetching the public listing from the Port of Seattle procurement platform, normalizing raw solicitations and writing them into `opportunities/<agency>/`, clearing caches, etc.).
 
-## 原则
+## Principles
 
-- 只做确定性的数据获取/整理，不在脚本里嵌入 LLM 判断（哪个机会值得跟进、如何打分等推理交给 `skills/opportunity-review` 和 `workflows/`）。
-- 抓取前确认对应平台的 ToS/robots.txt 是否允许自动化访问。
-- 认证信息（API token 等）一律从环境变量读取（见 `.env.example`），不写入脚本或提交到仓库。
-
+- Only do deterministic data fetching/organizing — do not embed LLM judgment in scripts (reasoning like which opportunity is worth pursuing or how to score it belongs in `skills/opportunity-review` and `workflows/`).
+- Before scraping, confirm that the platform's ToS/robots.txt permits automated access.
+- Credentials (API tokens, etc.) must always be read from environment variables (see `.env.example`), never written into scripts or committed to the repository.

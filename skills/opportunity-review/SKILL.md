@@ -1,35 +1,35 @@
 ---
 name: opportunity-review
-description: 评估一条政府/市政采购机会是否值得跟进投标——检查是否匹配公司能力与过往业绩，给出 go/no-go 建议和需人工确认的问题。评审新发现的 RFP/RFQ 时使用。
+description: Assess whether a government/municipal procurement opportunity is worth pursuing for a bid — check fit against company capabilities and past performance, give a go/no-go recommendation and questions requiring human confirmation. Use when reviewing a newly discovered RFP/RFQ.
 ---
 
 # opportunity-review
 
-## 输入
+## Input
 
-`opportunities/<agency>/` 下新增或待评估的一条机会（标题、招标编号、截止日期、NAICS/UNSPSC 代码、预算范围、资质要求、原始链接）。
+A new or pending-review opportunity under `opportunities/<agency>/` (title, solicitation number, due date, NAICS/UNSPSC codes, budget range, qualification requirements, original link).
 
-## 步骤
+## Steps
 
-1. 读取机会的原始要求，提取关键字段：范围/标的、资质要求（证照、保险、担保金等）、截止日期、预算量级、NAICS/UNSPSC 代码。
-2. 对照 `company/capabilities.md` 判断服务范围是否匹配；对照 `company/past-performance/` 判断是否有可引用的相关经验。
-3. 检查资质门槛（如担保金规模、特定认证）是否公司当前能满足——不确定的，列为待人工确认，不要假设满足。
-4. 检查该招标是否对 AI 辅助撰写投标文件有披露或限制要求（见 `SECURITY.md`）。
-5. 给出 go / no-go / 需更多信息 三选一的建议，并说明理由。
-6. 将结果写回对应机会文件（追加"评估结果"小节），不修改原始招标信息。
+1. Read the opportunity's original requirements and extract key fields: scope/subject matter, qualification requirements (licenses, insurance, bonding, etc.), due date, budget scale, NAICS/UNSPSC codes.
+2. Check against `company/capabilities.md` to judge whether the service scope matches; check against `company/past-performance/` to judge whether there is relevant experience that can be cited.
+3. Check whether qualification thresholds (e.g., bonding amount, specific certifications) can currently be met by the company — if uncertain, list as needing human confirmation, do not assume they are met.
+4. Check whether the solicitation has any disclosure or restriction requirements regarding AI-assisted drafting of bid documents (see `SECURITY.md`).
+5. Give one of three recommendations: go / no-go / need more information, with reasoning.
+6. Write the result back into the corresponding opportunity file (append an "Assessment Result" section) — do not modify the original solicitation information.
 
-## 输出格式（追加到机会文件末尾）
+## Output Format (appended to the end of the opportunity file)
 
 ```
-## 评估结果（opportunity-review）
-- 匹配度：高 / 中 / 低
-- 建议：go / no-go / 需更多信息
-- 理由：...
-- 需人工确认的问题：
+## Assessment Result (opportunity-review)
+- Fit: High / Medium / Low
+- Recommendation: go / no-go / need more information
+- Reasoning: ...
+- Questions requiring human confirmation:
   - ...
 ```
 
-## 边界
+## Boundaries
 
-- 不自动决定"投标"或推进到起草提案阶段——go/no-go 是给人看的建议，最终决定权在人工。
-- 不编造公司资质/业绩数据；`company/` 里没有的信息一律标记为待确认。
+- Does not automatically decide to "bid" or advance to the proposal-drafting stage — go/no-go is a recommendation for a human to see; the final decision rests with a human.
+- Does not fabricate company qualifications/past-performance data; anything not in `company/` must be marked as pending confirmation.

@@ -1,7 +1,7 @@
 # past-performance
 
-历史项目案例，一个项目一个文件（如 `2025-project-name.md`），供起草提案时引用，证明相关经验。
+Historical project case studies, one file per project (e.g., `2025-project-name.md`), to be cited when drafting proposals as evidence of relevant experience.
 
-每个文件建议包含：客户/机构名称（如允许公开披露）、项目内容、时间范围、金额规模、可引用的成果。
+Each file should ideally include: client/agency name (if allowed to be publicly disclosed), project description, time period, dollar amount/scale, and citable outcomes.
 
-涉及客户保密信息时，先确认对方合同中是否允许作为案例展示；不确定就不要写入。
+When client confidential information is involved, first confirm whether the client's contract permits it being shown as a case study; if unsure, do not include it.

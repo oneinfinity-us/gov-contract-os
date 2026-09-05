@@ -1,8 +1,8 @@
-# 创始人简历（待填写）
+# Founder Bio (to be filled in)
 
-> 提案中涉及团队资历介绍时会引用此文件。请填入真实信息。
+> Referenced in proposals whenever team qualifications need to be introduced. Fill in real information.
 
-- **姓名**：TODO
-- **背景/履历**：TODO
-- **相关行业经验**：TODO
-- **教育背景**：TODO
+- **Name**: TODO
+- **Background/résumé**: TODO
+- **Relevant industry experience**: TODO
+- **Education**: TODO

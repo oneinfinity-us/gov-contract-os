@@ -1,221 +1,221 @@
-# Port of Seattle 采购周报 — 2026-07-21（改进版）
+# Port of Seattle Procurement Weekly Report — 2026-07-21 (Improved Version)
 
-**数据来源**：https://hosting.portseattle.org/sops/#/Solicitations  
-**抓取时间**：2026-07-21  
-**执行**：port-of-seattle-weekly-review skill (v2 - 优化版)  
+**Data source**: https://hosting.portseattle.org/sops/#/Solicitations  
+**Fetched at**: 2026-07-21  
+**Run by**: port-of-seattle-weekly-review skill (v2 - optimized)  
 
-> ⚠️ **重要限制**：`company/capabilities.md`、`company/company-profile.md`、`company/founder-bio.md` 均为 TODO 未填写，`company/past-performance/` 无任何案例。本次评估中所有机会的「相关经验」维度记为 0 分。**强烈建议优先补全公司资料后重新运行评估。**
+> ⚠️ **Important limitation**: `company/capabilities.md`, `company/company-profile.md`, and `company/founder-bio.md` are all TODO, unfilled, and `company/past-performance/` has no case studies at all. In this assessment, the "relevant experience" dimension is recorded as 0 for every opportunity. **Strongly recommend completing company data first, then rerunning the assessment.**
 
 ---
 
-## 摘要统计
+## Summary Statistics
 
-| 指标 | 数值 |
+| Metric | Value |
 |---|---|
-| 平台当前活跃公告 | 22 |
-| 本周新增 | 22（首次运行，全部为新） |
-| 建议跟进（Go） | 0 |
-| 建议监控（Watch） | 1 |
-| 建议放弃（No Bid） | 21 |
-| ⚠️ 公司资料缺失影响的评估 | 全部 22 个 |
+| Currently active solicitations on the platform | 22 |
+| New this week | 22 (first run, all new) |
+| Recommended to pursue (Go) | 0 |
+| Recommended to monitor (Watch) | 1 |
+| Recommended to drop (No Bid) | 21 |
+| ⚠️ Assessments affected by missing company data | all 22 |
 
 ---
 
-## Go（建议跟进）
+## Go (Recommended to Pursue)
 
-当前无机会达到 Go 阈值（≥ 70 分）。
+No opportunity currently meets the Go threshold (≥ 70 points).
 
 ---
 
-## Watch（建议监控，暂不跟进）
+## Watch (Recommended to Monitor, Not Pursuing for Now)
 
 ### 26-36 — Emergency Elevator Communication System (EECS)
 
-| 字段 | 值 |
+| Field | Value |
 |---|---|
-| 机构 | Port of Seattle |
-| 招标编号 | 26-36 |
-| 类别 | Goods and Services |
-| 截止日期 | 2026-07-28 14:00 PT（剩 6 天） |
-| 预算范围 | 未公开 |
-| 来源链接 | https://hosting.portseattle.org/sops/#/Solicitations/Detail/4c2970c9-764d-f111-bd3c-005056aa9c71 |
+| Agency | Port of Seattle |
+| Solicitation number | 26-36 |
+| Category | Goods and Services |
+| Due date | 2026-07-28 14:00 PT (6 days remaining) |
+| Budget range | Not disclosed |
+| Source link | https://hosting.portseattle.org/sops/#/Solicitations/Detail/4c2970c9-764d-f111-bd3c-005056aa9c71 |
 
-**加权得分**：48 / 100  
-**当前决定**：Watch（因时间限制，6 天内难以竞争）  
-**决定理由**：
-- 含软件/通信组件，与公司潜在方向相关（基础分数 48/100）
-- 但截止仅剩 6 天（5-7 天区间），难以准备有竞争力的方案
-- 监控是否重新发布或延期；如延期 > 14 天，立即升为 Go
+**Weighted score**: 48 / 100  
+**Current decision**: Watch (due to the timeline constraint, hard to compete within 6 days)  
+**Reasoning**:
+- Includes software/communication components relevant to the company's potential direction (base score 48/100)
+- But only 6 days remain (the 5-7 day band), too little time to prepare a competitive submission
+- Monitor for reissue or an extension; if extended > 14 days, immediately upgrade to Go
 
-**能力差距**：
-- ⚠️ 通信系统集成经验未知（公司资料缺失，相关经验得 0）
-- 电梯行业资质/认证未知
-- 实物产品供应资质是否存在待确认
+**Capability gaps**:
+- ⚠️ Unknown communication-system integration experience (company data missing, relevant experience scored 0)
+- Unknown elevator-industry qualifications/certifications
+- Whether a physical product supply qualification is required is pending confirmation
 
-**监控计划**：
-- 每日检查是否有修订公告或延期通知
-- 如截止日期延后至 8/4 以后，立即重新评估并升为 Go
-- 关注是否有 Port of Seattle 的后续相似采购
+**Monitoring plan**:
+- Check daily for a revision notice or extension
+- If the due date is extended past 8/4, immediately reassess and upgrade to Go
+- Watch for related follow-on Port of Seattle procurements
 
 ---
 
-## No Bid（已淘汰）
+## No Bid (Eliminated)
 
-共 **21 个**机会，淘汰理由分类：
+**21** opportunities in total, elimination reasons by category:
 
-### 按淘汰原因分类
+### By elimination reason
 
-| 淘汰理由 | 数量 | 详情 |
+| Elimination reason | Count | Detail |
 |---|---|---|
-| 核心能力严重不匹配（得分 < 40） | 14 | 电气、建筑、环保、HR 等领域 |
-| 时间不足（虽有软件成分，但 < 5 天） | 0 | — |
-| 强制资质不可达（小公司禁区） | 7 | 建筑总承包、电气承包、机构认证等 |
+| Severe core-capability mismatch (score < 40) | 14 | Electrical, construction, environmental, HR, etc. domains |
+| Insufficient time (has a software component, but < 5 days) | 0 | — |
+| Mandatory qualification unreachable (small-company no-go zone) | 7 | General construction, electrical contracting, agency certification, etc. |
 
-### 淘汰机会详细列表
+### Detailed list of eliminated opportunities
 
-#### A. 软件/AI 不相关的领域（14 个）
+#### A. Domains unrelated to software/AI (14)
 
-| 招标编号 | 标题 | 类别 | 截止日期 | 淘汰理由 | 建议 |
+| Solicitation number | Title | Category | Due date | Elimination reason | Recommendation |
 |---|---|---|---|---|---|
-| P-00322887 | Healthcare Navigation Services | Consulting | 2026-07-31 | 人力资源/医疗服务，非软件 | 持续监控新采购 |
-| 00322870 | Main Terminal Improvement Program Emergency Power | Consulting | 2026-08-06 | 电气工程，需注册工程师 | 不适合 |
-| 26-72 | Pre-Conditioned Air Modular Bridge Mounted Hose Trolley System | Goods & Services | 2026-08-11 | 物理硬件供应（登机桥管道），非软件 | 监控分包机会 |
-| 00322878 | South Concourse Renovation Testing and Special Inspections | Consulting | 2026-08-14 | 建筑材料测试，需检测机构资质 | 不适合 |
-| SW-0322908 | Electrical Unit Price Portwide 2026 | Small Works | 2026-08-26 | 电气承包，需持照电气承包商 | 不适合 |
-| 已过期 | Marine Stormwater Utility Services IDIQ | Consulting | 2026-07-14 | 环境工程，非软件 | 监控 Port of Seattle 环保采购 |
-| 已过期 | Deferred Compensation Retirement Third Party Administrator | Consulting | 2026-07-02 | HR/金融，非软件 | 不适合 |
-| 已过期 | Port Wide Coffee Service | Goods & Services | 2026-06-30 | 餐饮，无关 | 不适合 |
-| 已过期 | Benefits Account | Consulting | 2026-06-30 | HR/福利，非软件 | 不适合 |
-| 已过期 | Maritime Clean Energy, Fuels & Technologies IDIQ | Consulting | 2026-06-05 | 海事能源，非软件 | 监控 Port 的技术采购 |
-| 已过期 | Maritime Sustainable Fuels Landscape Assessment IDIQ | Consulting | 2026-06-05 | 海事能源，非软件 | 监控 Port 的技术采购 |
-| 已过期 | 2026-2027 Tourism Marketing Support Program | Consulting | 2026-03-10 | 营销服务，已过期太久 | 新一年重新投标 |
-| 已过期 | RFI Civil-Environmental Engineering Sponsoring and Mentoring | Consulting | 2026-02-09 | RFI（信息征集），非招标 | 不适合 |
-| 已过期 | South King and Port Communities Fund Environmental Improvement Program | Consulting | 2025-10-31 | 环保，已过期 | 不适合 |
+| P-00322887 | Healthcare Navigation Services | Consulting | 2026-07-31 | HR/healthcare services, not software | Continue monitoring new procurements |
+| 00322870 | Main Terminal Improvement Program Emergency Power | Consulting | 2026-08-06 | Electrical engineering, requires a registered engineer | Not a fit |
+| 26-72 | Pre-Conditioned Air Modular Bridge Mounted Hose Trolley System | Goods & Services | 2026-08-11 | Physical hardware supply (jet bridge hose system), not software | Monitor for subcontracting opportunity |
+| 00322878 | South Concourse Renovation Testing and Special Inspections | Consulting | 2026-08-14 | Construction materials testing, requires a qualified inspection organization | Not a fit |
+| SW-0322908 | Electrical Unit Price Portwide 2026 | Small Works | 2026-08-26 | Electrical contracting, requires a licensed electrical contractor | Not a fit |
+| Expired | Marine Stormwater Utility Services IDIQ | Consulting | 2026-07-14 | Environmental engineering, not software | Monitor Port of Seattle environmental procurements |
+| Expired | Deferred Compensation Retirement Third Party Administrator | Consulting | 2026-07-02 | HR/finance, not software | Not a fit |
+| Expired | Port Wide Coffee Service | Goods & Services | 2026-06-30 | Food service, unrelated | Not a fit |
+| Expired | Benefits Account | Consulting | 2026-06-30 | HR/benefits, not software | Not a fit |
+| Expired | Maritime Clean Energy, Fuels & Technologies IDIQ | Consulting | 2026-06-05 | Maritime energy, not software | Monitor Port's technology procurements |
+| Expired | Maritime Sustainable Fuels Landscape Assessment IDIQ | Consulting | 2026-06-05 | Maritime energy, not software | Monitor Port's technology procurements |
+| Expired | 2026-2027 Tourism Marketing Support Program | Consulting | 2026-03-10 | Marketing services, too far past due | Rebid next cycle |
+| Expired | RFI Civil-Environmental Engineering Sponsoring and Mentoring | Consulting | 2026-02-09 | RFI (request for information), not a solicitation | Not a fit |
+| Expired | South King and Port Communities Fund Environmental Improvement Program | Consulting | 2025-10-31 | Environmental, expired | Not a fit |
 
-#### B. 强制资质不可达（小公司禁区）（7 个）
+#### B. Mandatory qualification unreachable (small-company no-go zone) (7)
 
-| 招标编号 | 标题 | 类别 | 截止日期 | 强制资质 | 建议 |
+| Solicitation number | Title | Category | Due date | Mandatory qualification | Recommendation |
 |---|---|---|---|---|---|
-| MC-0321006-2 | SEA South Concourse Evolution, Bid Package 2 | Major Construction | 2026-08-11 | 建筑总承包资质 + 履约担保 | 作为分包商联系主承包 |
-| MC-0322591 | Terminal 25 South Habitat Restoration GC/CM Pre-Construction | Major Construction | 2026-08-26 | 建筑许可 + 担保 | 作为分包商联系主承包 |
-| 已过期 | 2025 Economic Development City Partnership | Goods & Services | 2025-10-10 | 城市发展资质 | 不适合 |
+| MC-0321006-2 | SEA South Concourse Evolution, Bid Package 2 | Major Construction | 2026-08-11 | General construction contractor qualification + performance bond | Approach the prime contractor as a subcontractor |
+| MC-0322591 | Terminal 25 South Habitat Restoration GC/CM Pre-Construction | Major Construction | 2026-08-26 | Building permit + bonding | Approach the prime contractor as a subcontractor |
+| Expired | 2025 Economic Development City Partnership | Goods & Services | 2025-10-10 | Urban development qualification | Not a fit |
 
-#### C. 软件成分但时间紧张（已归类到 Watch）
+#### C. Has a software component but tight timeline (already classified as Watch)
 
-| 招标编号 | 标题 | 截止日期 | 决定 |
+| Solicitation number | Title | Due date | Decision |
 |---|---|---|---|
 | 26-36 | Emergency Elevator Communication System | 2026-07-28 | **Watch** |
 
-#### D. 软件可能成分但得分 40-69、不在 Watch 的（0 个）
+#### D. Possible software component, score 40-69, not in Watch (0)
 
-（此类已标记为 No Bid，理由：公司资料不全 + 软件成分弱；可在公司资料更新后重新评估）
-
----
-
-## 公司资料完整性说明
-
-⚠️ **当前状态**：
-- `company/capabilities.md` — **TODO（未填写）**
-- `company/company-profile.md` — **TODO（未填写）**
-- `company/past-performance/` — **无任何案例**
-
-**影响**：本次评估中，**全部 22 个**机会的「相关经验」维度记为 0 分。这导致许多原本可能 Watch 或 Go 的机会被严重低估。
-
-**优先行动**：
-🔴 **本周内（截止 2026-07-25 EOD）** — Jeff 补全 `company/capabilities.md`：
-  1. 公司定位（AI/Azure 软件公司 vs. 咨询 vs. 混合）
-  2. 核心产品/服务（具体技术栈、成功案例）
-  3. 近 3 年已交付的 3-5 个代表性项目（含客户、预算、成果）
-  4. 团队背景（CTO/lead engineer 的背景）
-  5. 行业资质（如有）
-
-完成后，标记为"资料已更新"，通知 TT 进行批量重新评估（预期 1-2 个机会可升级为 Watch/Go）。
+(None fall into this category — items here would be marked No Bid due to incomplete company data + weak software component; reassess once company data is updated)
 
 ---
 
-## 工作流元数据
+## Company Data Completeness Notes
 
-| 字段 | 值 |
+⚠️ **Current status**:
+- `company/capabilities.md` — **TODO (not filled in)**
+- `company/company-profile.md` — **TODO (not filled in)**
+- `company/past-performance/` — **no case studies at all**
+
+**Impact**: In this assessment, the "relevant experience" dimension is recorded as 0 for **all 22** opportunities. This has caused many opportunities that could otherwise be Watch or Go to be significantly underrated.
+
+**Priority action**:
+🔴 **This week (by 2026-07-25 EOD)** — Jeff to complete `company/capabilities.md`:
+  1. Company positioning (AI/Azure software company vs. consulting vs. hybrid)
+  2. Core products/services (specific tech stack, success stories)
+  3. 3-5 representative projects delivered in the last 3 years (including client, budget, outcomes)
+  4. Team background (CTO/lead engineer background)
+  5. Industry certifications (if any)
+
+Once complete, mark as "data updated" and notify TT to run a batch reassessment (expect 1-2 opportunities could be upgraded to Watch/Go).
+
+---
+
+## Workflow Metadata
+
+| Field | Value |
 |---|---|
-| Skill 文件 | `skills/port-of-seattle-weekly-review/SKILL.md` (v2) |
-| Workflow 文件 | `workflows/port-of-seattle-weekly-review.md` (更新) |
-| 评估标准 | `workflows/opportunity-review.md` (新增加权、时间硬过滤) |
-| **决策框架** | Go (≥70) / Watch (40-69 或时间紧) / No Bid (<40) |
-| **时间硬过滤** | < 5 天 → No Bid; 5-7 天 → Watch (仅 Go 时提交); ≥ 8 天 → 完整评估 |
-| **权重系统** | 核心能力 3×, 业务拟合 1.5×, 执行风险 1× |
-| 下次运行 | 2026-07-28 06:00 UTC（周一）|
-| 预期更新 | 若公司资料在 7/25 前完成，将于 7/26-7/27 进行批量重新评估 |
-| 维护者 | Jeff Tian |
-| 执行工具 | OpenClaw (GCP) |
+| Skill file | `skills/port-of-seattle-weekly-review/SKILL.md` (v2) |
+| Workflow file | `workflows/port-of-seattle-weekly-review.md` (updated) |
+| Assessment criteria | `workflows/opportunity-review.md` (added weighting, hard timeline filter) |
+| **Decision framework** | Go (≥70) / Watch (40-69 or tight timeline) / No Bid (<40) |
+| **Hard timeline filter** | < 5 days → No Bid; 5-7 days → Watch (only submit if it would be a Go); ≥ 8 days → full assessment |
+| **Weighting system** | Core capability 3×, business fit 1.5×, execution risk 1× |
+| Next run | 2026-07-28 06:00 UTC (Monday) |
+| Expected update | If company data is completed by 7/25, a batch reassessment will run 7/26-7/27 |
+| Maintainer | Jeff Tian |
+| Execution tool | OpenClaw (GCP) |
 
 ---
 
-## 周报趋势（历史对比）
+## Weekly Report Trends (historical comparison)
 
-| 周次 | Open 数 | 新增 | Go | Watch | No Bid | 关键事项 | 更新日期 |
+| Week | Open count | New | Go | Watch | No Bid | Key items | Updated |
 |---|---|---|---|---|---|---|---|
-| 2026-07-21 | 9 | 22 | 0 | 1 | 21 | 首次运行；EECS 进 Watch；公司资料待补 | 2026-07-21 |
-| 2026-07-28 | ? | ? | ? | ? | ? | 若公司资料完成，预期 1-2 机会升级 | 2026-07-28 |
+| 2026-07-21 | 9 | 22 | 0 | 1 | 21 | First run; EECS moved to Watch; company data pending | 2026-07-21 |
+| 2026-07-28 | ? | ? | ? | ? | ? | If company data is complete, expect 1-2 opportunities upgraded | 2026-07-28 |
 | 2026-08-04 | ? | ? | ? | ? | ? | — | 2026-08-04 |
 
 ---
 
-## 改进说明（vs. 原始版本）
+## Improvement Notes (vs. Original Version)
 
-### ✅ 改进点
+### ✅ Improvements
 
-1. **时间硬过滤**（建议 #1）  
-   - 26-36 从"需更多信息" → "Watch"（明确的时间限制原因）
-   - < 5 天的机会直接 No Bid，不留模糊
+1. **Hard timeline filter** (recommendation #1)  
+   - 26-36 changed from "need more information" → "Watch" (a clear timeline-constraint reason)
+   - Opportunities with < 5 days go straight to No Bid, no ambiguity left
 
-2. **加权评分**（建议 #1, #2）  
-   - 核心能力（AI/软件）权重 3×（从单项 25/15 → 加权 3×）
-   - 业务拟合权重 1.5× 
-   - 执行风险权重 1×
-   - 地理匹配权重**大幅降低**（从 10 → 5）
+2. **Weighted scoring** (recommendations #1, #2)  
+   - Core capability (AI/software) weighted 3× (from a raw 25/15 item → weighted 3×)
+   - Business fit weighted 1.5× 
+   - Execution risk weighted 1×
+   - Geographic-match weight **substantially reduced** (from 10 → 5)
 
-3. **决策树清晰**（建议 #2）  
-   - Go / Watch / No Bid，移除"需更多信息"
-   - 每个决定都有量化阈值（70 / 40-69 / <40）
+3. **Clear decision tree** (recommendation #2)  
+   - Go / Watch / No Bid, "need more information" removed
+   - Every decision has a quantified threshold (70 / 40-69 / <40)
 
-4. **表格精简**（建议 #4）  
-   - "截止已过"的 11 个不再逐条列表，改为按淘汰理由分类
-   - 只突出重点：无重新发布机会，不值得跟踪
+4. **Streamlined tables** (recommendation #4)  
+   - The 11 "past due" opportunities are no longer listed individually, but grouped by elimination reason
+   - Only highlight what matters: no reissue opportunity, not worth tracking
 
-5. **行动项目有分配**（建议 #5）  
-   - 公司资料补全项：指派给 Jeff，截止 7/25 EOD
-   - Watch 机会（26-36）的监控计划明确：每日检查 + 重评条件
+5. **Action items have assignees** (recommendation #5)  
+   - Company data completion: assigned to Jeff, due 7/25 EOD
+   - Monitoring plan for the Watch opportunity (26-36) is explicit: daily checks + reassessment trigger
 
-6. **工作流元数据完整**（建议 #6）  
-   - 新增"决策框架"和"权重系统"说明
-   - 预期更新计划：公司资料完成 → 批量重评
+6. **Complete workflow metadata** (recommendation #6)  
+   - Added "decision framework" and "weighting system" descriptions
+   - Expected-update plan: company data completed → batch reassessment
 
-7. **趋势统计**（建议 #7）  
-   - 新增"周报趋势"表，为未来对比奠基
-   - 记录关键事项，预期下次变化
+7. **Trend statistics** (recommendation #7)  
+   - Added a "weekly report trends" table, laying the groundwork for future comparison
+   - Records key items and expected changes for next time
 
-### 🎯 核心改变
+### 🎯 Core Changes
 
-| 原版 | 改进版 |
+| Original | Improved |
 |---|---|
-| 评分：简单求和 | 评分：加权乘积 |
-| 决策：Go / No-bid / 需更多信息 | 决策：Go / Watch / No Bid（清晰) |
-| 表格：大而全 | 表格：精简 + 按理由分类 |
-| 行动项："本周内补全资料" | 行动项："Jeff 截止 7/25 EOD 补全资料；TT 7/26-27 重评" |
-| 工作流：隐含 | 工作流：元数据完整，下次预期清晰 |
+| Scoring: simple sum | Scoring: weighted product |
+| Decision: Go / No-bid / Need more information | Decision: Go / Watch / No Bid (clear) |
+| Tables: large and exhaustive | Tables: streamlined + grouped by reason |
+| Action items: "complete data this week" | Action items: "Jeff by 7/25 EOD completes data; TT 7/26-27 reassesses" |
+| Workflow: implicit | Workflow: complete metadata, clear expectations for next run |
 
 ---
 
-## 注意事项
+## Notes
 
-- 本报告为草稿，所有决定需人工审阅后方可采取行动
-- 不自动提交提案或联系外部机构
-- 评分仅供参考；最终决定权由 Jeff 掌握
-- **关键路径**：公司资料补全 → 批量重评 → 可能发现 1-2 个 Go 机会
-- Watch 机会（26-36）需每日人工监控；如延期，立即重评
+- This report is a draft; all decisions require human review before any action is taken
+- Must not automatically submit proposals or contact external agencies
+- Scores are for reference only; the final decision rests with Jeff
+- **Critical path**: company data completion → batch reassessment → potentially surfaces 1-2 Go opportunities
+- The Watch opportunity (26-36) requires daily human monitoring; reassess immediately if extended
 
 ---
 
-**生成工具**：port-of-seattle-weekly-review v2 (OpenClaw)  
-**生成时间**：2026-07-22 06:12 UTC  
-**版本差异**：改进版已应用优化建议 1-6；旧版保留为 `port-of-seattle-weekly-2026-07-21.md`
+**Generated by**: port-of-seattle-weekly-review v2 (OpenClaw)  
+**Generated at**: 2026-07-22 06:12 UTC  
+**Version difference**: the improved version applies optimization recommendations 1-6; the old version is preserved as `port-of-seattle-weekly-2026-07-21.md`

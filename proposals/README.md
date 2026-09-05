@@ -1,7 +1,7 @@
 # proposals
 
-投标提案草稿，与 `opportunities/<agency>/` 中的机会一一对应（建议同名，如 `opportunities/port-of-seattle/<id>.md` 对应 `proposals/port-of-seattle/<id>.md`）。
+Draft bid proposals, one-to-one with opportunities under `opportunities/<agency>/` (recommended to use matching names, e.g. `opportunities/port-of-seattle/<id>.md` corresponds to `proposals/port-of-seattle/<id>.md`).
 
-- 草稿由 LLM 辅助生成，引用 `company/` 中的真实资料。
-- 提交前必须经人工审核（报价、资质声明、法律条款），任何情况下不自动提交给采购机构，见 `SECURITY.md`。
-- 如对应招标文件要求披露 AI 辅助生成，需在提案中如实说明。
+- Drafts are LLM-assisted, citing real material from `company/`.
+- Must undergo human review before submission (pricing, qualification claims, legal terms); under no circumstances is anything automatically submitted to the procurement agency — see `SECURITY.md`.
+- If the corresponding solicitation requires disclosure of AI-assisted generation, this must be truthfully stated in the proposal.

@@ -1,25 +1,25 @@
 # opportunities / port-of-seattle
 
-Port of Seattle 采购平台发现的机会，一个机会一个文件/子目录（约定待第一批真实数据进来后固化，建议：`<solicitation-id>-<slug>.md` 或 `<solicitation-id>/`）。
+Opportunities discovered on the Port of Seattle procurement platform, one file/subdirectory per opportunity (the convention is to be finalized once the first batch of real data comes in; suggested: `<solicitation-id>-<slug>.md` or `<solicitation-id>/`).
 
-每条机会建议记录：
+Each opportunity should ideally record:
 
-- 标题、招标编号（solicitation #）
-- 发布日期 / 截止日期
-- 采购平台原始链接
-- NAICS/UNSPSC 代码、预算范围（如公开）
-- `skills/opportunity-review` 产出的评估结果（匹配度、go/no-go 建议、需人工确认的问题）
-- 当前状态（发现 / 评估中 / 投标中 / 已提交 / 中标 / 未中标）
+- Title, solicitation number (solicitation #)
+- Issue date / due date
+- Original link on the procurement platform
+- NAICS/UNSPSC codes, budget range (if public)
+- The assessment result produced by `skills/opportunity-review` (fit, go/no-go recommendation, questions requiring human confirmation)
+- Current status (discovered / under assessment / bidding / submitted / won / lost)
 
-## 资源
+## Resources
 
-| 资源 | 说明 |
+| Resource | Notes |
 |---|---|
-| [Port of Seattle – 采购公告列表](https://hosting.portseattle.org/sops/#/Solicitations) | 官方采购平台，每周检查新发布的 RFP/RFQ/IFB。 |
+| [Port of Seattle – Solicitations list](https://hosting.portseattle.org/sops/#/Solicitations) | Official procurement platform, check weekly for newly published RFPs/RFQs/IFBs. |
 
-## 待确认
+## To Be Confirmed
 
-- 是否提供官方 API 或 RSS/订阅机制
-- 认证要求（如需要）
+- Whether an official API or RSS/subscription mechanism is provided
+- Authentication requirements (if any)
 
-其他机构（WA State、King County、Seattle、Bellevue）尚未接入，暂不在此建目录；跑通 Port of Seattle 流程后再扩展。
+Other agencies (WA State, King County, Seattle, Bellevue) are not yet integrated, so no directory is created for them here yet; they'll be added after the Port of Seattle workflow is up and running.

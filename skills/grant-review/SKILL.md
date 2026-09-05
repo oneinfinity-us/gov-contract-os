@@ -1,34 +1,34 @@
 ---
 name: grant-review
-description: 评估一份 grant 机会是否值得申请——先跑硬性资格 pass/fail，再对通过资格的评分与出建议（Apply / Apply with Partner / Seek Fiscal Sponsor / Request Clarification / Monitor / Do Not Apply）。评审新发现或手工导入的 NOFO/RFA 时使用。
+description: Assess whether a grant opportunity is worth applying for — first run the hard eligibility pass/fail check, then score whatever passes eligibility and produce a recommendation (Apply / Apply with Partner / Seek Fiscal Sponsor / Request Clarification / Monitor / Do Not Apply). Use when reviewing a newly discovered or manually imported NOFO/RFA.
 ---
 
 # grant-review
 
-## 输入
+## Input
 
-- 一条 `GrantOpportunity`（手工导入的 `opportunities/grants/inbox/<slug>/manifest.yaml` 或 collector 抓来的）
-- 目标非盈利的 `organizations/<slug>/organization-profile.yaml`
+- A `GrantOpportunity` (either manually imported via `opportunities/grants/inbox/<slug>/manifest.yaml` or fetched by a collector)
+- The target nonprofit's `organizations/<slug>/organization-profile.yaml`
 
-## 前置条件
+## Preconditions
 
-- 只对 `type: nonprofit` 的组织运行本流程。见 `SECURITY.md` 的组织身份隔离条款。
-- 起草任何叙述/预算前必须先读 `organizations/<slug>/` 里的 mission / programs / capacity 文件；不得引用 `company/` 或 consulting-business 的过往业绩。
+- Only run this workflow for organizations with `type: nonprofit`. See the organization identity isolation clause in `SECURITY.md`.
+- Before drafting any narrative/budget, the mission / programs / capacity files under `organizations/<slug>/` must be read first; `company/` or consulting-business past performance must not be cited.
 
-## 步骤
+## Steps
 
-1. **Eligibility pass/fail**（`gov_contract_os.grants.eligibility.check_grant_eligibility`）
-   - 501(c)(3) 状态、eligible applicant type、geographic scope、invitation-only、SAM.gov 注册、deadline 可行性、cost share 上限
-   - 硬失败 → `INELIGIBLE`，直接跳到"归档"步骤，不评分
-   - 缺信息 → `CONDITIONAL` 或 `UNKNOWN`，记入 `missing_information` / `conditional_actions`
-2. **Level-1 打分**（仅对 `ELIGIBLE` / `CONDITIONAL`，`gov_contract_os.grants.scoring.score_grant`，config: `config/scoring/grant-scoring.yaml`）
-   - 11 个维度：mission / program / population / geography / entity / funding amount / cost / capacity / outcomes / effort / deadline
-   - 权重外部化，不写死在代码里
-3. **建议**
+1. **Eligibility pass/fail** (`gov_contract_os.grants.eligibility.check_grant_eligibility`)
+   - 501(c)(3) status, eligible applicant type, geographic scope, invitation-only, SAM.gov registration, deadline feasibility, cost share cap
+   - A hard failure → `INELIGIBLE`, skip directly to the "archive" step, do not score
+   - Missing information → `CONDITIONAL` or `UNKNOWN`, recorded under `missing_information` / `conditional_actions`
+2. **Level-1 scoring** (only for `ELIGIBLE` / `CONDITIONAL`, `gov_contract_os.grants.scoring.score_grant`, config: `config/scoring/grant-scoring.yaml`)
+   - 11 dimensions: mission / program / population / geography / entity / funding amount / cost / capacity / outcomes / effort / deadline
+   - Weights are externalized, not hardcoded
+3. **Recommendation**
    - Apply / Apply with Partner / Seek Fiscal Sponsor / Request Clarification / Monitor / Do Not Apply
-   - 分数 ≥ 70 → `requires_advanced_model=True`，等 Level-2 LLM 分析
-4. **生成分析 artifact**（Phase 2 起）
-   写入 `reports/grants/<grant-id>/`：
+   - Score ≥ 70 → `requires_advanced_model=True`, awaiting Level-2 LLM analysis
+4. **Generate analysis artifacts** (starting in Phase 2)
+   Written to `reports/grants/<grant-id>/`:
    - opportunity-summary.md
    - eligibility-matrix.csv
    - application-checklist.md
@@ -37,20 +37,20 @@ description: 评估一份 grant 机会是否值得申请——先跑硬性资格
    - questions-for-funder.md
    - risk-register.md
    - decision-memo.md
-5. **人工审核**——所有 artifact 是草稿，最终决定权在人。
+5. **Human review** — all artifacts are drafts; the final decision rests with a human.
 
-## 输出
+## Output
 
-一条 `GrantAnalysis`（存 `grant_analyses` 表），带：
+A `GrantAnalysis` (stored in the `grant_analyses` table), with:
 
-- `eligibility.status`、`hard_failures`、`missing_information`、`conditional_actions`
-- `fit_score`（ineligible 时为 `None`）、`fit_level`、`recommendation`
-- `matched_criteria`、`gaps`、`next_actions`
-- `requires_human_review=True`（永远）
+- `eligibility.status`, `hard_failures`, `missing_information`, `conditional_actions`
+- `fit_score` (`None` when ineligible), `fit_level`, `recommendation`
+- `matched_criteria`, `gaps`, `next_actions`
+- `requires_human_review=True` (always)
 
-## 边界
+## Boundaries
 
-- **不自动决定申请**——`recommendation` 是给人看的建议。
-- **不代表非盈利与 funder 通信**、**不代签授权代表签名**、**不自动提交申请**。
-- **不编造** organizational capacity、program outcomes、财务数据、合作伙伴承诺、董事会成员。缺失一律 `[HUMAN INPUT REQUIRED]`。
-- **不复用** `company/` / consulting-business 的 past performance 到 grant 申请里。
+- **Does not automatically decide to apply** — `recommendation` is a recommendation for a human to see.
+- **Does not communicate with the funder on the nonprofit's behalf**, **does not sign on behalf of an authorized representative**, **does not automatically submit an application**.
+- **Does not fabricate** organizational capacity, program outcomes, financial data, partner commitments, board members. Anything missing must be marked `[HUMAN INPUT REQUIRED]`.
+- **Does not reuse** past performance from `company/` / the consulting business in grant applications.

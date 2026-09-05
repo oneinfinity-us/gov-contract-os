@@ -1,7 +1,7 @@
 # workflows
 
-OpenClaw 执行指令存放处（例如：每日"抓取 Port of Seattle 新公告 → 跑 opportunity-review → 写入日报"这类自动化流程的定义）。
+Where OpenClaw execution instructions are stored (for example: the definition of a daily automation like "fetch new Port of Seattle solicitations → run opportunity-review → write to the daily digest").
 
-认证通过 `.env` 中的 `OPENCLAW_GATEWAY_TOKEN` 完成，不写入本目录下的文件。
+Authentication is done via `OPENCLAW_GATEWAY_TOKEN` in `.env`, not written into files in this directory.
 
-具体指令文件格式待 OpenClaw 侧确认后补充。
+The exact instruction file format is to be added once confirmed on the OpenClaw side.
