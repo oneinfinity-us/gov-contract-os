@@ -1,48 +1,47 @@
 # gov-contract-os
 
-政府/市政采购商机 + 非盈利 grant 商机自动化系统。目标：发现商机 → 评估是否值得投标/申请 → 起草提案/申请（LLM 辅助，人工审核）→ 跟踪状态 → 定期生成机会日报。
+Government/municipal procurement opportunity + nonprofit grant opportunity automation system. Goal: discover opportunities → assess whether they're worth bidding on/applying for → draft proposals/applications (LLM-assisted, human review) → track status → periodically generate an opportunity digest.
 
-当前范围：
-- **采购（合同）线**：Port of Seattle 试点已运行；WA State / King County / City of Seattle / City of Bellevue 后续接入。产品名 "Government Contract Opportunity Copilot"。
-- **Grant 线**（Phase 1 完成，2026-07）：非盈利 grant 机会 —— 手工 PDF 导入闭环 + 硬性资格 pass/fail + Level-1 打分 + 组织身份隔离守卫。Grants.gov API / WA GovDelivery grant 分流是 Phase 3。
+Current scope:
+- **Procurement (contracts) track**: Port of Seattle pilot is running; WA State / King County / City of Seattle / City of Bellevue to be added later. Product name: "Government Contract Opportunity Copilot".
+- **Grants track** (Phase 1 complete, 2026-07): nonprofit grant opportunities — manual PDF import loop + hard eligibility pass/fail + Level-1 scoring + organization identity isolation guard. Grants.gov API / WA GovDelivery grant triage is Phase 3.
 
-在做任何事之前，先读 `SECURITY.md`——里面的边界（不自动提交提案/申请、不自动外发邮件、不存雇主/客户机密信息、组织身份隔离等）没有例外。
+Before doing anything, read `SECURITY.md` first — the boundaries in it (do not auto-submit proposals/applications, do not send outbound email automatically, do not store employer/client confidential information, organization identity isolation, etc.) have no exceptions.
 
-## 目录约定
+## Directory Conventions
 
-| 目录 | 用途 |
+| Directory | Purpose |
 |---|---|
-| `company/` | 咨询公司的人类可读资料：简介、创始人简历、能力清单、过往业绩。起草采购提案前必须先读这里，不得编造资质或业绩。**不得用于 grant 申请**。 |
-| `organizations/` | 组织身份 manifest（YAML）。`consulting-business/` 对应 `company/` 内容；`nonprofit/` 是 501(c)(3) 非盈利。CLI 的 `--nonprofit/--organization` 参数从这里读。 |
-| `opportunities/<agency>/` | 采购机会。每个机构一份。 |
-| `opportunities/grants/inbox/<slug>/` | 手工投递的 grant 公告 —— 每个 grant 一个文件夹，含 `manifest.yaml` + 原始 PDF。 |
-| `opportunities/grants/archive/` | 已归档的 grant（closed / awarded / do_not_apply）。 |
-| `contacts/contacts.csv` | 采购机构联系人。含 PII，处理方式见 `SECURITY.md`。 |
-| `proposals/` | 采购投标提案草稿。人工审核才能提交。 |
-| `templates/grants/` | Grant application 段落模板（LOI、statement of need、budget narrative 等）。Phase 2 起提供真实内容。 |
-| `reports/` | 采购每日机会日报。 |
-| `reports/grants/<grant-id>/` | 每个 grant 的分析产物（eligibility matrix、decision memo 等）。Phase 2 起自动生成。 |
-| `config/scoring/*.yaml` | 评分权重配置（externalized，不写死在代码里）。 |
-| `scripts/` | 确定性的采集/整理脚本，不嵌入 LLM 判断。 |
-| `skills/opportunity-review/` | 采购机会分析流程。 |
-| `skills/grant-review/` | Grant 机会分析流程（eligibility → 评分 → recommendation）。 |
-| `workflows/` | OpenClaw 的执行指令。 |
+| `company/` | Human-readable materials for the consulting company: profile, founder bios, capability list, past performance. Must be read before drafting a procurement proposal — never fabricate qualifications or past performance. **Must not be used for grant applications**. |
+| `organizations/` | Organization identity manifests (YAML). `consulting-business/` corresponds to the content in `company/`; `nonprofit/` is the 501(c)(3) nonprofit. The CLI's `--nonprofit/--organization` flag reads from here. |
+| `opportunities/<agency>/` | Procurement opportunities. One folder per agency. |
+| `opportunities/grants/inbox/<slug>/` | Manually submitted grant announcements — one folder per grant, containing `manifest.yaml` + the original PDF. |
+| `opportunities/grants/archive/` | Archived grants (closed / awarded / do_not_apply). |
+| `contacts/contacts.csv` | Procurement agency contacts. Contains PII — see `SECURITY.md` for handling. |
+| `proposals/` | Draft procurement bid proposals. Requires human review before submission. |
+| `templates/grants/` | Grant application section templates (LOI, statement of need, budget narrative, etc.). Real content provided starting in Phase 2. |
+| `reports/` | Daily procurement opportunity digest. |
+| `reports/grants/<grant-id>/` | Analysis artifacts for each grant (eligibility matrix, decision memo, etc.). Auto-generated starting in Phase 2. |
+| `config/scoring/*.yaml` | Scoring weight configuration (externalized, not hardcoded). |
+| `scripts/` | Deterministic collection/organization scripts; no embedded LLM judgment. |
+| `skills/opportunity-review/` | Procurement opportunity analysis workflow. |
+| `skills/grant-review/` | Grant opportunity analysis workflow (eligibility → scoring → recommendation). |
+| `workflows/` | OpenClaw execution instructions. |
 
-## 工作规则
+## Working Rules
 
-- 采购机会评估遵循 `skills/opportunity-review/`；Grant 机会评估遵循 `skills/grant-review/`。
-- 起草采购提案前读 `company/`；起草 grant 申请前读 `organizations/<nonprofit-slug>/`。**永远不跨用**。
-- 不确定的资质/业绩/项目结果标为 `[HUMAN INPUT REQUIRED]`，不要自己编。
-- Grant 分析必须先跑硬性 eligibility pass/fail，`INELIGIBLE` 的不参与评分排名。
-- `scripts/` 里的代码保持确定性、可复查——判断"值不值得投"、"怎么打分"这类推理放在 skills/workflows/scoring config，不要埋进脚本里。
-- 涉及 `contacts/contacts.csv`、非盈利 EIN/银行/董事会 PII、或客户/机构非公开信息时，遵守 `SECURITY.md`。
-- 任何要对外发送/提交的内容（邮件、采购提案提交、grant 申请提交、SAM.gov/UEI 注册更新）一律先给人审核，不自动执行。
+- Procurement opportunity assessment follows `skills/opportunity-review/`; grant opportunity assessment follows `skills/grant-review/`.
+- Read `company/` before drafting a procurement proposal; read `organizations/<nonprofit-slug>/` before drafting a grant application. **Never cross-use them**.
+- Mark uncertain qualifications/past performance/project results as `[HUMAN INPUT REQUIRED]` — do not make them up.
+- Grant analysis must run the hard eligibility pass/fail check first; anything marked `INELIGIBLE` does not participate in scoring/ranking.
+- Code in `scripts/` must stay deterministic and reviewable — reasoning like "is this worth bidding on" or "how should this be scored" belongs in skills/workflows/scoring config, not buried in scripts.
+- Follow `SECURITY.md` whenever `contacts/contacts.csv`, nonprofit EIN/banking/board PII, or non-public client/agency information is involved.
+- Anything intended to be sent/submitted externally (email, procurement proposal submission, grant application submission, SAM.gov/UEI registration updates) always goes to a human for review first — never auto-executed.
 
-## Grant 阶段路线图
+## Grant Phase Roadmap
 
-- **Phase 1（完成）**：领域模型、eligibility checker、Level-1 打分、YAML 权重、手工导入、CLI (`grants import` / `grants screen` / `grants list`)、组织身份隔离、tests。
-- **Phase 2**：手工 grant PDF → LLM 抽字段填 manifest、完整分析产物（8 个 markdown/csv 文件）、grant-review LLM Level-2。
-- **Phase 3**：Grants.gov Search2 API connector + 复用现有 GovDelivery connector 处理 WA 州 grant 邮件的解析分流。
-- **Phase 4**：Grant application workspace（LOI / narrative / budget 起草 + budget validation）。
-- **Phase 5**：基金会 / 企业 CSR connector（大部分只做 stub，走 manual inbox）。
-
+- **Phase 1 (complete)**: domain model, eligibility checker, Level-1 scoring, YAML weights, manual import, CLI (`grants import` / `grants screen` / `grants list`), organization identity isolation, tests.
+- **Phase 2**: manual grant PDF → LLM field extraction into manifest, full analysis artifacts (8 markdown/csv files), grant-review LLM Level-2.
+- **Phase 3**: Grants.gov Search2 API connector + reuse the existing GovDelivery connector to parse and triage WA state grant emails.
+- **Phase 4**: Grant application workspace (LOI / narrative / budget drafting + budget validation).
+- **Phase 5**: Foundation / corporate CSR connectors (mostly stubs only, routed to manual inbox).

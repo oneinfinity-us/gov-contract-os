@@ -1,79 +1,82 @@
-# 架构说明
+# Architecture Overview
 
-## 分层设计
+## Layered Design
 
 ```
-models/       Pydantic 数据模型 (Opportunity, Analysis) - 全系统唯一的数据契约
-storage/      SQLAlchemy ORM + SQLite，围绕 Opportunity.id 做去重 upsert
-collectors/   每个采购机构一个 connector，实现统一的 Connector 抽象接口
-normalizers/  机构名/日期/金额等字段的清洗与标准化工具函数
-scoring/      Level-1 确定性关键词评分规则 + 评分入口
-reports/      每日机会日报生成（Markdown）
-cli.py        Typer CLI，串联以上各层
+models/       Pydantic data models (Opportunity, Analysis) - the single data contract for the whole system
+storage/      SQLAlchemy ORM + SQLite, deduplicating upsert keyed on Opportunity.id
+collectors/   One connector per procurement agency, implementing the unified Connector abstract interface
+normalizers/  Cleaning/normalization helper functions for fields like agency name/date/amount
+scoring/      Level-1 deterministic keyword scoring rules + scoring entry point
+reports/      Daily opportunity digest generation (Markdown)
+cli.py        Typer CLI, wiring together the layers above
 ```
 
-依赖方向：`collectors` 产出 `Opportunity`（用到 `normalizers`）→ `storage` 落库
-→ `scoring` 读取未评分的机会产出 `Analysis` → `storage` 落库 → `reports` 汇总生成日报。
-`cli.py` 是唯一的编排层，OpenClaw 只应调用 CLI 命令，不直接导入内部模块。
+Dependency direction: `collectors` produce `Opportunity` (using `normalizers`) → `storage` persists it
+→ `scoring` reads unscored opportunities and produces `Analysis` → `storage` persists it → `reports` aggregates and generates the digest.
+`cli.py` is the only orchestration layer — OpenClaw should only invoke CLI commands, not import internal modules directly.
 
-## 去重策略
+## Deduplication Strategy
 
-`Opportunity.build_id()` 是主键来源：
+`Opportunity.build_id()` is the source of the primary key:
 
-1. 优先用 `f"{normalize_agency_name(source_agency)}::{solicitation_number}"`。
-2. 若没有编号，退回 `f"{agency}::{source_url}::{normalized_title}::{due_at_iso}"`。
-3. 对上述字符串取 `sha256` 前 32 位十六进制作为 `id`。
+1. Prefer `f"{normalize_agency_name(source_agency)}::{solicitation_number}"`.
+2. If there is no solicitation number, fall back to `f"{agency}::{source_url}::{normalized_title}::{due_at_iso}"`.
+3. Take the first 32 hex characters of the `sha256` of the above string as the `id`.
 
-同一个机会被多次抓取时 `id` 不变，`storage.db.upsert_opportunity` 据此原地更新而非重复插入。
-另外维护 `content_hash`（标题/描述/状态/截止日期/金额的哈希）用于未来检测"内容是否发生实质变化"，
-本轮尚未接入变更通知逻辑。
+When the same opportunity is scraped multiple times, its `id` stays the same, so `storage.db.upsert_opportunity`
+updates it in place rather than inserting a duplicate.
+A `content_hash` (a hash of title/description/status/due date/amount) is also maintained, for future use in
+detecting "whether the content has substantively changed" — change-notification logic is not wired up in this round.
 
-## 两级评分（Level 1 已实现，Level 2 未实现）
+## Two-Level Scoring (Level 1 implemented, Level 2 not implemented)
 
-- **Level 1（本轮实现）**：`scoring/rules.py` + `scoring/scorer.py`，纯关键词/规则打分，
-  0-100 分，5 类能力关键词（AI/Agent/Copilot/Azure 权重最高 25 分）+ 小公司体量匹配 +
-  强制性要求匹配（暂时恒定 50%，因为 Level 1 无法真正解析强制性要求条款）+ 时间可行性。
-  确定性、可单测、不调用任何外部 API。
-- **Level 2（未实现）**：计划让 LLM 读取机会全文，结合 `company/` 目录判断真实契合度、
-  提炼 `capability_gaps`/`mandatory_requirement_risks`，仅对 `requires_advanced_model=True`
-  （即 Level 1 分数 ≥ 75）的机会调用，控制付费 API 成本。本轮 `requires_advanced_model`
-  字段已计算并写入 `Analysis`，但没有任何代码真正调用付费模型。
+- **Level 1 (implemented this round)**: `scoring/rules.py` + `scoring/scorer.py`, pure keyword/rule-based scoring,
+  0-100 points, across 5 categories of capability keywords (AI/Agent/Copilot/Azure weighted highest at 25 points) +
+  small-company size fit + mandatory-requirement match (currently a constant 50%, since Level 1 cannot actually
+  parse mandatory requirement clauses) + timeline feasibility.
+  Deterministic, unit-testable, and does not call any external API.
+- **Level 2 (not implemented)**: planned to have an LLM read the full opportunity text, combine it with the
+  `company/` directory to judge real fit, and extract `capability_gaps`/`mandatory_requirement_risks`, only calling
+  the LLM for opportunities with `requires_advanced_model=True` (i.e., Level 1 score ≥ 75) to control paid API cost.
+  The `requires_advanced_model` field is already computed and written into `Analysis` this round, but no code
+  actually calls a paid model yet.
 
-`Analysis.requires_human_review` 恒为 `True` —— 系统任何输出都不能被当作自动决策依据。
+`Analysis.requires_human_review` is always `True` — no output from this system may be treated as a basis for an automated decision.
 
-## Connector 统一接口
+## Unified Connector Interface
 
-`collectors/base.py` 定义 `Connector` 抽象基类：`discover()` / `fetch_details()` /
-`fetch_documents()` / `health_check()`。任何一个来源抓取失败都必须通过
-`ConnectorHealth`（状态 + 原因 + 替代方案 + 人工 inbox 提示）汇报，不能抛出未处理异常
-中断其他来源的抓取（`cli.py` 的 `collect --all` 对每个来源单独 try/except）。
+`collectors/base.py` defines the `Connector` abstract base class: `discover()` / `fetch_details()` /
+`fetch_documents()` / `health_check()`. Any failure to scrape a given source must be reported through
+`ConnectorHealth` (status + reason + alternative + manual-inbox hint), and must not raise an unhandled exception
+that interrupts scraping of other sources (`cli.py`'s `collect --all` wraps each source in its own try/except).
 
-已实现：
-- `PortOfSeattleConnector`：调用公开 OData API。
-- `CityOfSeattleConnector`：解析官方公开 RSS feed（见 `docs/data-sources.md`）。
-- 其余 3 个（Washington State / King County / City of Bellevue）均为 stub：
-  `discover()` 直接 `raise NotImplementedError`，`health_check()` 返回
-  `NOT_IMPLEMENTED` 状态并给出研究线索/人工替代方案。
+Implemented:
+- `PortOfSeattleConnector`: calls the public OData API.
+- `CityOfSeattleConnector`: parses the official public RSS feed (see `docs/data-sources.md`).
+- The other 3 (Washington State / King County / City of Bellevue) are all stubs:
+  `discover()` simply `raise NotImplementedError`, and `health_check()` returns a
+  `NOT_IMPLEMENTED` status along with research leads/manual alternatives.
 
-## 已实现功能
+## Implemented Features
 
-- 数据模型（`Opportunity`/`Analysis`）+ 去重/内容哈希
-- SQLite 存储 + upsert 语义
-- Connector 统一接口 + 2 个真实 connector（Port of Seattle、City of Seattle）+ 3 个诚实的 stub
-- 字段标准化（机构名/日期/金额）
-- Level-1 确定性评分
-- 每日 Markdown 报告生成
-- CLI：`collect` / `analyze --new` / `report daily` / `export`
-- 单元测试（61 个，覆盖模型/标准化/评分/存储/connector/CLI），全部离线运行
-- ruff lint + format 通过
+- Data models (`Opportunity`/`Analysis`) + deduplication/content hashing
+- SQLite storage + upsert semantics
+- Unified connector interface + 2 real connectors (Port of Seattle, City of Seattle) + 3 honest stubs
+- Field normalization (agency name/date/amount)
+- Level-1 deterministic scoring
+- Daily Markdown report generation
+- CLI: `collect` / `analyze --new` / `report daily` / `export`
+- Unit tests (61, covering models/normalization/scoring/storage/connectors/CLI), all running offline
+- Passes ruff lint + format
 
-## 尚未实现（留给下一轮）
+## Not Yet Implemented (left for the next round)
 
-- Level-2 LLM 分析（真正调用 Anthropic API）
-- RFP 全文解析与合规矩阵（`rfp analyze` 目前只是打印"未实现"并退出码 2）
-- 提案起草辅助
-- Demo（Streamlit/FastAPI），`demo` 命令目前只是占位
-- Washington State / King County / City of Bellevue 的真实 connector（均尚无候选线索，
-  见 `docs/data-sources.md`）
-- OpenClaw 集成的具体调度脚本/配置（`workflows/` 中已有流程描述，但尚未验证真实可执行）
-- 变更检测通知（利用已有的 `content_hash` 字段）
+- Level-2 LLM analysis (actually calling the Anthropic API)
+- Full RFP text parsing and a compliance matrix (`rfp analyze` currently just prints "not implemented" and exits with code 2)
+- Proposal drafting assistance
+- Demo (Streamlit/FastAPI) — the `demo` command is currently just a placeholder
+- Real connectors for Washington State / King County / City of Bellevue (none have candidate leads yet,
+  see `docs/data-sources.md`)
+- Concrete scheduling scripts/configuration for OpenClaw integration (`workflows/` already has a described process, but it has not been verified as actually executable)
+- Change-detection notifications (leveraging the existing `content_hash` field)
